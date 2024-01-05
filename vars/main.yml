@@ -1,2 +1,3 @@
 ---
 # vars file for devops_ansible-role-codedeploy-agent
+region: us-east-1

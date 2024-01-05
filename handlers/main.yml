@@ -1,2 +1,7 @@
 ---
 # handlers file for devops_ansible-role-codedeploy-agent
+- name: restart code-deploy
+  systemd_service:
+    name: codedeploy-agent
+    daemon-reload: true
+    state: restarted

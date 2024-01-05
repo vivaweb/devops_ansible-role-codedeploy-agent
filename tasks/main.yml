@@ -1,2 +1,25 @@
 ---
 # tasks file for devops_ansible-role-codedeploy-agent
+- name: Install Ruby
+  package:
+    name: ruby
+    state: present
+
+- name: Fetch CodeDeploy Agent
+  get_url:
+    url: https://aws-codedeploy-{{ region }}.s3.{{ region }}.amazonaws.com/latest/install
+    dest: /tmp/install
+  notify: restart code-deploy
+
+- name: Adding execution permission
+  file:
+    path: /tmp/install
+    mode: u+x
+
+- name: Install CodeDeploy Agent
+  command: "/tmp/install auto"
+
+- name: Enable and start service
+  systemd_service:
+    name: codedeploy-agent
+    enabled: true
