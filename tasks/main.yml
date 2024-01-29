@@ -9,7 +9,6 @@
   get_url:
     url: https://aws-codedeploy-{{ region }}.s3.{{ region }}.amazonaws.com/latest/install
     dest: /tmp/install
-  notify: restart code-deploy
 
 - name: Adding execution permission
   file:
@@ -19,7 +18,8 @@
 - name: Install CodeDeploy Agent
   command: "/tmp/install auto"
 
-- name: Enable and start service
+- name: Disable service to avoid unexpected deploy
   systemd_service:
     name: codedeploy-agent
-    enabled: true
+    enabled: false
+    state: stopped
